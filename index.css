@@ -1,0 +1,46 @@
+#collect-submit,#get-submit {
+	margin-top: 10px
+}
+
+.inputs-list {
+	margin-top: -30px
+}
+
+.page {
+	border-top: 24px solid #2196f3
+}
+
+.modal-inner {
+    /* fix alert的内容会飞出来= = */
+	word-wrap: break-word
+}
+
+.page-panel-left {
+	margin-top: 5px
+}
+
+.inputs-list .item-content {
+	padding-left: 0px;
+}
+
+.inputs-list .item-media {
+	min-width: 0px;
+}
+
+.statusbar-overlay {
+	background: rgba(0, 0, 0, 0.2);
+	height: 24px;
+	display: block;
+}
+
+.list-block {
+	margin: 0 0;
+}
+
+.panel-left .list-block {
+	margin: 27px 0;
+}
+
+.content-block {
+	margin: 0 0;
+}
