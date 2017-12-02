@@ -4,6 +4,9 @@
 ## 功能
 探测某个或某些QQ用户的IP
 
+## 下载
+https://github.com/PrintNow/QQipTance/releases
+
 ## 用法
 1. 修改 `index.js` 文件中的 siteUrl，末尾没有 `/` 需要加 `/`，然后上传到服务器即可
 
