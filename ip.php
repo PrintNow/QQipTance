@@ -26,3 +26,11 @@ $data = curl('http://www.ipip.net/ip.html','ip='.$_GET['ip']);
 $ip = getSubstr($data,'<span id="myself">','</span>');
 
 echo $ip;
+
+function test(){
+return 'dd';
+}
+
+function test_one(){
+return 'dd';
+}
