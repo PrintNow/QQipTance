@@ -15,4 +15,4 @@ QQipTance 根据 GNU 通用公共许可证v3 (<a href="http://www.gnu.org/copyle
 
 
 > ### 演示站点：<a href="https://ip.nowtool.cn/tance/" target="_blank">https://ip.nowtool.cn/tance/</a>
-> ### -- [New]演示站点：<a href="https://ip.nowtool.cn/iptance/" target="_blank">https://ip.nowtool.cn/iptance</a> -- 失效
+> ### --[New]演示站点：<a href="https://ip.nowtool.cn/iptance/" target="_blank">https://ip.nowtool.cn/iptance</a>-- 失效
