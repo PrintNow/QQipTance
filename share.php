@@ -1,93 +1,60 @@
 <?php
-function real_ip(){
-	$ip = $_SERVER['REMOTE_ADDR'];
-	if (isset($_SERVER['HTTP_CF_CONNECTING_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CF_CONNECTING_IP'])) {
-		$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-	}elseif(isset($_SERVER['HTTP_CLIENT_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CLIENT_IP'])){
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
-	}elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']) AND preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
-		foreach ($matches[0] AS $xip) {
-			if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
-				$ip = $xip;
-				break;
+date_default_timezone_set('Asia/Shanghai');
+include_once(dirname(__FILE__)."/library/functions.php");
+
+
+die(touch('./cache/json/s.s'));
+$token=isset($_GET['token'])?$_GET['token']:false;
+$image_url=isset($_GET['image_url'])?baes_decode($_GET['image_url']):false;
+$share_user_ip=isset($_GET['share_user_ip'])?$_GET['share_user_ip']:false;
+$share_time=isset($_GET['share_time'])?$_GET['share_time']:false;
+$share_type=isset($_GET['share_type'])?$_GET['share_type']:false;
+
+if($token && $image_url && $userip && $share_time && $share_type){
+	$ip = get_client_ip();
+
+	//创建缓存目录
+	mkdirs(dirname(__FILE__).'/cache/data/'.date('Y/m/d',$share_time));
+
+	$cache_data_path = dirname(__FILE__).'/cache/data/'.date('Y/m/d',$share_time).'/'$token.'.json';
+	$cache_ip_path = dirname(__FILE__).'/cache/ip/'.$token.'.ip';
+
+	/********************************************/
+	if($ua=='Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)' || $ua=='Apache-HttpClient/UNAVAILABLE (java 1.4)' || $ua=='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'){
+		$data['ua_type']='PC';
+	}elseif(preg_match('/Darwin/',$ua)){
+		$data['ua_type']='iOS';
+	}elseif(preg_match('/Dalvik\//',$ua)){
+		$data['ua_type']='Android';
+	}elseif($ua=='Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'){
+		$data['ua_type']='iOS';
+	}else{
+		$data['ua_type']='Unknown';
+	}
+	$data['ip']=$ip;
+	$data['ua']=$ua;
+	$data['get_time']=time(true);
+	/********************************************/
+
+	if(file_exists($cache_data_path) && file_exists($cache_ip_path)){
+		if(in_array($ip,explode("\n",file_get_contents($cache_ip_path)))){
+			////存在该IP，不重复记录数据，直接跳转
+		}else{
+			file_put_contents($cache_ip_path,"\n".$ip,FILE_APPEND);
+			$original=file_get_contents($cache_data_path);
+			$de_file=json_decode($original,true);
+			if(count($de_file)>='1'){
+				$one=str_replace(']','',$original);
+				file_put_contents($json_path,$one.','.json_encode($data).']');
+			}else{
+				file_put_contents($json_path,'['.json_encode($data).']');
 			}
 		}
+	}else{
+		file_put_contents($cache_ip_path,$ip);
+		file_put_contents($cache_data_path,'['.json_encode($data).']');
 	}
-	return $ip;
-}
-$ip = real_ip();
-$ua = $_SERVER['HTTP_USER_AGENT'];
-if($ua == 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)'){
-    $pc = true;
-}elseif(preg_match('/Darwin/',$ua)){
-    $ios = true;
-    $ios_ua = $ua;
-}elseif($ua == '' || preg_match('/Dalvik\//',$ua)){
-    $android = true;
-    $android_ua = $ua;
-}elseif($ua == 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H143 Safari/600.1.4'){
-    die();
-}elseif($ua == 'Java/1.6.0_21'){
-    die();
+	header("Location: {$image_url}");
 }else{
-    $unknown = true;
-    $unknown_ua = $ua;
+	echo "500";
 }
-
-if(isset($_GET['_T']) && isset($_GET['_U'])){
-	$user_file = dirname(__FILE__).'/cache/'.base64_decode($_GET['_T']).'.json';
-	$img_url = base64_decode($_GET['_U']);
-}else{
-	die('404');
-}
-
-touch($user_file);//如果没有此文件，则创建
-$user = file_get_contents($user_file);
-$user = json_decode($user,true);
-
-$i = 0;
-$do = false;
-foreach($user['result'] as $value){
-    if($user['result'][$i]['ip'] == $ip){
-        if($user['result'][$i]['pc'] != true){
-            $user['result'][$i]['pc'] = $pc;
-        }
-        if($user['result'][$i]['android'] != true){
-            $user['result'][$i]['android'] = $android;
-            $user['result'][$i]['android_ua'] = $android_ua;
-        }
-        if($user['result'][$i]['ios'] != true){
-            $user['result'][$i]['ios'] = $ios;
-            $user['result'][$i]['ios_ua'] = $ios_ua;
-        }
-        if($user['result'][$i]['unknown'] != true){
-            $user['result'][$i]['unknown'] = $unknown;
-            $user['result'][$i]['unknown_ua'] = $unknown_ua;
-        }
-        $user['result'][$i]['ts'] = time();
-        $do = true;
-    }
-    $i++;
-}
-if($do != true){
-    $i = count($user['result']);
-    $user['result'][$i]['pc'] = $pc;
-    $user['result'][$i]['android'] = $android;
-    $user['result'][$i]['android_ua'] = $android_ua;
-    $user['result'][$i]['ios'] = $ios;
-    $user['result'][$i]['unknown'] = $unknown;
-    $user['result'][$i]['unknown_ua'] = $unknown_ua;
-    $user['result'][$i]['ios_ua'] = $ios_ua;
-    $user['result'][$i]['ip'] = $ip;
-    $user['result'][$i]['ua'] = $ua;
-    $user['result'][$i]['ts'] = time();
-}
-$user = json_encode($user);
-
-$fp = fopen($user_file,'w');
-flock($fp,LOCK_EX);
-fputs($fp,$user);
-flock($fp,LOCK_UN);
-fclose($fp);
-
-header('location:'.$img_url);

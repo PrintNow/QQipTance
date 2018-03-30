@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="renderer" content="webkit">
+		<meta name="theme-color" content="#607d8b" />
+		<title>QQ IP探测</title>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/mdui/0.4.0/css/mdui.min.css"/>
+		<script src="./assets/js/user_info.php"></script>
+	</head>
+
+	<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue-grey mdui-theme-accent-pink">
+		<header class="mdui-appbar mdui-appbar-fixed">
+			<div class="mdui-toolbar mdui-color-theme">
+				<span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+				<a href="./" target="_blank" class="mdui-typo-headline mdui-hidden-xs">QQ IP 探测</a>
+				<a href="./" class="mdui-typo-title">QQ IP 探测</a>
+			</div>
+		</header>
+
+		<div class="mdui-drawer" id="main-drawer">
+			<div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+
+				<li class="mdui-list-item mdui-ripple">
+					<i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
+					<div class="mdui-list-item-content">
+						<a href="./" class="mdui-ripple">主页</a>
+					</div>
+				</li>
+
+				<li class="mdui-list-item mdui-ripple">
+					<i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-cyan">&#xe0da;</i>
+					<div class="mdui-list-item-content">
+						<a href="./getdata.php" class="mdui-ripple">取回数据</a>
+					</div>
+				</li>
+
+				<li class="mdui-list-item mdui-ripple">
+					<i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-light-green">&#xe887;</i>
+					<div class="mdui-list-item-content">
+						<a href="./" class="mdui-ripple">食用方法</a>
+					</div>
+				</li>
+
+				<div class="mdui-collapse-item ">
+					<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+						<i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">&#xe0bc;</i>
+						<div class="mdui-list-item-content">关于</div>
+						<i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+					</div>
+					<div class="mdui-collapse-item-body mdui-list">
+						<a href="https://nowtime.cc" target="_blank" class="mdui-list-item mdui-ripple ">现在网[个人博客]</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- 主页面 -->
+
+		<div class="mdui-tab mdui-tab-full-width mdui-color-blue-grey" mdui-tab>
+			<a href="#tance_data" class="mdui-ripple">
+				<label>探测数据</label>
+			</a>
+			<a href="#query_data" class="mdui-ripple">
+				<label>取回数据</label>
+			</a>
+			<a href="#ip_query" class="mdui-ripple">
+				<label>IP 地址查询</label>
+			</a>
+		</div>
+
+		<!-- 探测数据 -->
+		<div id="tance_data" class="mdui-p-a-2">
+      <div class="mdui-container">
+        <div class="mdui-textfield">
+          <label class="mdui-textfield-label">跳转链接</label>
+          <input class="mdui-textfield-input" id="jump_url" value="http://finance.qq.com/original/MissMoney/mm0043.html" />
+        </div>
+        <div class="mdui-textfield">
+          <label class="mdui-textfield-label">图片链接</label>
+          <input class="mdui-textfield-input" id="image_url" value="http://img1.gtimg.com/finance/pics/hv1/167/23/1969/128040257.jpg" />
+        </div>
+        <div class="mdui-textfield">
+          <label class="mdui-textfield-label">卡片 标题</label>
+          <input class="mdui-textfield-input" id="card_title" value="中国为什么没有500元以上的大额纸币？" />
+        </div>
+        <div class="mdui-textfield">
+          <label class="mdui-textfield-label">卡片 摘要</label>
+          <textarea class="mdui-textfield-input" id="card_summary">新版100元已于2015年11月12日面世，但500元的大额纸币...</textarea>
+        </div>
+        <div class="mdui-col">
+          <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" id="send_qq">发送到 QQ</button>
+        </div>
+      </div>
+		</div>
+
+		<!-- 取回数据 -->
+		<div id="query_data" class="mdui-p-a-2">
+      <div class="mdui-container">
+        <form action="./getdata.php">
+        <div class="mdui-textfield">
+          <label class="mdui-textfield-label">Token</label>
+          <input class="mdui-textfield-input" type="text" name="token" placeholder="输入 Token 以查询探测到的 IP 数据"/>
+        </div>
+        <div class="mdui-col">
+          <input class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" type="submit" value="查询"/>
+        </div>
+      </form>
+      </div>
+		</div>
+
+		<!-- IP 地址查询 -->
+		<div id="ip_query" class="mdui-p-a-2">
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">IP地址 / 域名</label>
+				<input class="mdui-textfield-input" type="text" placeholder="请输入 IP地址/域名，用以查询 域名/IP 归属地"/>
+			</div>
+			<div class="mdui-col">
+				<button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple" id="example-dialog">查询</button>
+			</div>
+		</div>
+
+
+	<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
+	<script src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script>
+	<script src="https://cdn.bootcss.com/mdui/0.4.0/js/mdui.min.js"></script>
+	<script src="./assets/js/javascript.js?v=0.4.0"></script>
+</html>
