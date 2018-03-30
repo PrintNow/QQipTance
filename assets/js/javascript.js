@@ -53,10 +53,11 @@ $$('#send_qq').on('click', function(e) {
     var image_url = base64_encode(site_url+"share.php?token="+tokens+"&image_url="+base64_encode($$("#image_url").val())+"&share_user_ip="+client_ip+"&share_time="+share_time+"&share_type=mobile");
   	var tance_api = "mqqapi://share/to_fri?file_type=news&src_type=web&version=1&generalpastboard=1&file_type=news&share_id=1105471055&url=" + base64_encode($$("#jump_url").val()) + "&image_url=" + image_url +"&title=" + base64_encode($$("#card_title").val()) + "&description=" +base64_encode($$("#card_title").val()) +"&callback_type=scheme&thirdAppDisplayName=UVE=&app_name=UVE=&cflag=0&shareType=0";
   } else {
-    var image_url = base64_encode(site_url+"share.php?token="+tokens+"&image_url="+base64_encode($$("#image_url").val())+"&share_user_ip="+client_ip+"share_time="+share_time+"&share_type=mobile");
+    var image_url = base64_encode(site_url+"share.php?token="+tokens+"&image_url="+base64_encode($$("#image_url").val())+"&share_user_ip="+client_ip+"&share_time="+share_time+"&share_type=mobile");
   	var tance_api = 'http://connect.qq.com/widget/shareqq/index.html?site=&title=' + $$("#card_title").val() + '&summary=' + $$("#card_summary").val() + '&pics='+image_url+'&url=' + $$("#jump_url").val();
     console.log(tance_api);
   }
+	console.log(image_url);
 
 	if (check_devices_type() == 'phone') {
 		window.open(tance_api);

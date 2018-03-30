@@ -2,22 +2,22 @@
 date_default_timezone_set('Asia/Shanghai');
 include_once(dirname(__FILE__)."/library/functions.php");
 
-
-die(touch('./cache/json/s.s'));
 $token=isset($_GET['token'])?$_GET['token']:false;
-$image_url=isset($_GET['image_url'])?baes_decode($_GET['image_url']):false;
+$image_url=isset($_GET['image_url'])?base64_decode($_GET['image_url']):false;
 $share_user_ip=isset($_GET['share_user_ip'])?$_GET['share_user_ip']:false;
 $share_time=isset($_GET['share_time'])?$_GET['share_time']:false;
 $share_type=isset($_GET['share_type'])?$_GET['share_type']:false;
 
-if($token && $image_url && $userip && $share_time && $share_type){
+if($token && $image_url && $share_user_ip && $share_time && $share_type){
 	$ip = get_client_ip();
+	$ua = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:NULL;
 
 	//创建缓存目录
 	mkdirs(dirname(__FILE__).'/cache/data/'.date('Y/m/d',$share_time));
+	mkdirs(dirname(__FILE__).'/cache/ip/'.date('Y/m/d',$share_time));
 
-	$cache_data_path = dirname(__FILE__).'/cache/data/'.date('Y/m/d',$share_time).'/'$token.'.json';
-	$cache_ip_path = dirname(__FILE__).'/cache/ip/'.$token.'.ip';
+	$cache_data_path = dirname(__FILE__).'/cache/data/'.date('Y/m/d',$share_time).'/'.$token.'.json';
+	$cache_ip_path = dirname(__FILE__).'/cache/ip/'.date('Y/m/d',$share_time).'/'.$token.'.ip';
 
 	/********************************************/
 	if($ua=='Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)' || $ua=='Apache-HttpClient/UNAVAILABLE (java 1.4)' || $ua=='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'){
@@ -54,7 +54,7 @@ if($token && $image_url && $userip && $share_time && $share_type){
 		file_put_contents($cache_ip_path,$ip);
 		file_put_contents($cache_data_path,'['.json_encode($data).']');
 	}
-	header("Location: {$image_url}");
+	//header("Location: {$image_url}");
 }else{
 	echo "500";
 }
