@@ -1,6 +1,7 @@
 # ~~QQ IP探测~~（已经失效）
 
 ## 2018-03-30
+<<<<<<< HEAD
 > 很抱歉的告诉大家，`QQ IP探测` 已经和谐了。
 > 是这样的，我开发时，是在本地测试的，本地测试可用，然后匆忙 push 了 v2.0初始版本（没有数据查询功能），当时我以为可用。
 > 就在刚刚，我部署到服务器上运行，然后 `debug` 发现，分享的图片链接会通过 `腾讯` 的服务器进行压缩，然后压缩后返回 `腾讯` 自己的链接，下面是我抓包得到的数据
@@ -26,6 +27,15 @@ Access-Control-Allow-Methods: GET, POST
 Access-Control-Allow-Credentials: true
 Content-Encoding: gzip
 Vary: Accept-Encoding
+=======
+> QQ IP探测 V2.0 编写中...
+>
+>> 18点14分
+>>
+>> V2.0 Beta 首次提交，数据查询功能正在写ing...
+>>
+>> 稍安勿躁，别下载
+>>>>>>> 2d0ccb981c8df8ba32532756d7218fc957ffd093
 
 Result:
 {"retcode":0,"url":"http:\/\/qqadapt.qpic.cn\/qqshare\/0\/d0065417e418add0586a19cc9e19ceaf\/0"}
